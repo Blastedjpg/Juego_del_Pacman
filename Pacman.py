@@ -3,13 +3,13 @@
 Exercises
 
 1. Change the board.
-2. Change the number of ghosts.
-3. Change where pacman starts.
-4. Make the ghosts faster/slower.
-5. Make the ghosts smarter.
+3. Make the ghosts faster/slower.
+4. Make the ghosts smarter.
 """
 
 from random import choice
+import random
+import time
 from turtle import *
 
 from freegames import floor, vector
@@ -19,13 +19,14 @@ path = Turtle(visible=False)
 writer = Turtle(visible=False)
 aim = vector(5, 0)
 pacman = vector(-40, -80)
+
 ghosts = [
     [vector(-180, 160), vector(5, 0)],
     [vector(-180, -160), vector(0, 5)],
     [vector(100, 160), vector(0, -5)],
     [vector(100, -160), vector(-5, 0)],
 ]
-# fmt: off
+# Para cambiar el tablero se modifican los valores de 0 y 1 en la siguiente lista
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
@@ -130,6 +131,25 @@ def move():
     goto(pacman.x + 10, pacman.y + 10)
     dot(20, 'yellow')
 
+    move_ghosts()
+
+    update()
+
+    for point, course in ghosts:
+        if abs(pacman - point) < 20:
+            return
+
+    ontimer(move, 50)
+
+
+def change(x, y):
+    """Change pacman aim if valid."""
+    if valid(pacman + vector(x, y)):
+        aim.x = x
+        aim.y = y
+
+
+def move_ghosts():
     for point, course in ghosts:
         if valid(point + course):
             point.move(course)
@@ -140,28 +160,27 @@ def move():
                 vector(0, 5),
                 vector(0, -5),
             ]
-            plan = choice(options)
-            course.x = plan.x
-            course.y = plan.y
+            # Se calcula la distancia entre Pacman y el fantasma
+            distances = [abs(pacman - (point + option)) for option in options]
+
+           # Se genera un numero aleatorio entre 0-3
+            random_num = random.randint(0, 3)
+
+            # Se usa el numero random para determinar si el fantasma se mueve en dirección random o hacia el pacman
+            if random_num == 0:
+                # Se elige la dirección random
+                random_direction = random.choice(options)
+                course.x = random_direction.x
+                course.y = random_direction.y
+            else:
+                # Se elige la direccion que lleve más directamente al pacman
+                best_option = options[distances.index(min(distances))]
+                course.x = best_option.x
+                course.y = best_option.y
 
         up()
         goto(point.x + 10, point.y + 10)
         dot(20, 'red')
-
-    update()
-
-    for point, course in ghosts:
-        if abs(pacman - point) < 20:
-            return
-
-    ontimer(move, 100)
-
-
-def change(x, y):
-    """Change pacman aim if valid."""
-    if valid(pacman + vector(x, y)):
-        aim.x = x
-        aim.y = y
 
 
 setup(420, 420, 370, 0)
