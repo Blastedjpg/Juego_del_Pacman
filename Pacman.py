@@ -20,11 +20,12 @@ writer = Turtle(visible=False)
 aim = vector(5, 0)
 pacman = vector(-40, -80)
 
+# Se modifica la velocidad INICIAL de los fantasmas
 ghosts = [
-    [vector(-180, 160), vector(15, 0)],
-    [vector(-180, -160), vector(0, 15)],
-    [vector(100, 160), vector(0, -15)],
-    [vector(100, -160), vector(-15, 0)],
+    [vector(-180, 160), vector(10, 0)],
+    [vector(-180, -160), vector(0, 10)],
+    [vector(100, 160), vector(0, -10)],
+    [vector(100, -160), vector(-10, 0)],
 ]
 # Para cambiar el tablero se modifican los valores de 0 y 1 en la siguiente lista
 tiles = [
@@ -155,10 +156,11 @@ def move_ghosts():
             point.move(course)
         else:
             options = [
-                vector(5, 0),
-                vector(-5, 0),
-                vector(0, 5),
-                vector(0, -5),
+                  # Se modifica la velocidad de los fantasmas cuando tienen que cambiar de dirección
+                vector(10, 0),
+                vector(-10, 0),
+                vector(0, 10),
+                vector(0, -10),
             ]
             # Se calcula la distancia entre Pacman y el fantasma
             distances = [abs(pacman - (point + option)) for option in options]
