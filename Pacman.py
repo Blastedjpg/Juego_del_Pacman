@@ -21,10 +21,10 @@ aim = vector(5, 0)
 pacman = vector(-40, -80)
 
 ghosts = [
-    [vector(-180, 160), vector(5, 0)],
-    [vector(-180, -160), vector(0, 5)],
-    [vector(100, 160), vector(0, -5)],
-    [vector(100, -160), vector(-5, 0)],
+    [vector(-180, 160), vector(15, 0)],
+    [vector(-180, -160), vector(0, 15)],
+    [vector(100, 160), vector(0, -15)],
+    [vector(100, -160), vector(-15, 0)],
 ]
 # Para cambiar el tablero se modifican los valores de 0 y 1 en la siguiente lista
 tiles = [
